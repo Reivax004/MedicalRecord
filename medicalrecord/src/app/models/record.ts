@@ -12,3 +12,4 @@ export interface MedicalRecord {
   pastSurgeries?: string;
   emergencyContact: string;
 }
+
