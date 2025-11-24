@@ -1,15 +1,13 @@
+import {Vaccine} from './vaccine';
+import {Practitioner} from './practitioner';
+
 export interface MedicalRecord {
-  firstName: string;
-  lastName: string;
-  dateOfBirth: string;
-  sex: 'Homme' | 'Femme' | 'Autre';
-  weight?: number;           // Poids en kg
-  height?: number;           // Taille en cm
-  bloodType: string;
-  allergies?: string;
-  chronicDiseases?: string;
-  currentMedications?: string;
-  pastSurgeries?: string;
-  emergencyContact: string;
+  weight?: number;
+  height?: number;
+  blood_pressure: String;
+  general_practitioner: Practitioner;
+  vaccine: Vaccine;
+  allergies: [];
 }
+
 

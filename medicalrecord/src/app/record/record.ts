@@ -26,10 +26,6 @@ export class Record implements OnInit {
       height: [''],
       bloodType: ['', Validators.required],
       allergies: [''],
-      chronicDiseases: [''],
-      currentMedications: [''],
-      pastSurgeries: [''],
-      emergencyContact: ['', Validators.required]
     });
   }
 }

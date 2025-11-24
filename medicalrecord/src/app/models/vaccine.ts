@@ -1,6 +1,8 @@
 export interface Vaccine {
-  nom: string;
-  dateInjection: Date;
-  typeVaccination: string;
-  nomDuVaccinateur: string;
+  name: string;
+  injection_date: Date;
+  vaccination_type: string;
+  vaccinator_name: string;
 }
+
+

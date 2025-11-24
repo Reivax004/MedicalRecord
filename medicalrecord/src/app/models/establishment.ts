@@ -1,11 +1,12 @@
 import {Address} from './address';
 
 export interface Establishment {
-  adress: Address;
-  type: string;
-  description?: string;
-  telephone: string;
+  name: string;
+  address: Address;
+  type: string
+  description: string
+  phone: number;
   email: string;
-  date_creation: Date;
-  effectifs: number;
+  creation_date: Date;
+  number_employees: number;
 }
