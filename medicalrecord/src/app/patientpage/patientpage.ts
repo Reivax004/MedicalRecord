@@ -1,6 +1,9 @@
 import { Account } from '../models/account';
 import {Component, Input, OnInit} from '@angular/core';
 import {DatePipe} from '@angular/common';
+import {Practitioner} from '../models/practitioner';
+import {Vaccine} from '../models/vaccine';
+import {Establishment} from '../models/establishment';
 
 @Component({
   selector: 'app-patientpage',
@@ -19,7 +22,8 @@ export class Patientpage implements OnInit {
     firstName: 'Marie',
     birthDate: new Date('1990-04-12'),
     address: {
-      street: '12 rue de la Santé',
+      number: 12,
+      street: 'rue de la Santé',
       city: 'Paris',
       postalCode: '75005',
       country: 'France'
@@ -27,7 +31,44 @@ export class Patientpage implements OnInit {
     sex: 'F',
     phone: 33612345678,
     email: 'marie.dupont@example.com',
-    password: '********'
+    password: '********',
+    general_file: {
+      weight: 12,
+      height: 123,
+      blood_pressure: '1',
+      blood_group: 'A',
+      general_practitioner: {
+        lastname: "",
+        firstname: "",
+        specialization: "",
+        phone: "",
+        establishment: {
+          name: "",
+          address: {
+            number: 1,
+            street: "",
+            city: "",
+            postalCode: "",
+            country: "",
+          },
+          type: "",
+          description: "",
+          phone: 12345,
+          email: "",
+          creation_date: new Date(),
+          number_employees: 1
+        },
+        email: "",
+        password: ""
+      },
+      vaccine: {
+        name: "d",
+        injection_date: new Date(),
+        vaccination_type: "",
+        vaccinator_name: "",
+      },
+      allergies:[]
+    }
   };
 
   get current(): Account {

@@ -1,4 +1,5 @@
 import {Address} from './address';
+import {MedicalRecord} from './record';
 
 
 export interface Account {
@@ -11,4 +12,5 @@ export interface Account {
   phone: number;
   email: string;
   password: string;
+  general_file : MedicalRecord;
 }

@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angula
 import { RouterModule, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { Account} from '../models/account';
+import {MedicalRecord} from '../models/record';
 
 @Component({
   selector: 'app-register',
@@ -23,7 +24,8 @@ export class Register {
       sex: ['', Validators.required],
       phone: ['', Validators.required],
 
-      // Adresse découpée
+
+      number: ['', Validators.required],
       street: ['', Validators.required],
       city: ['', Validators.required],
       postalCode: ['', Validators.required],
@@ -48,11 +50,13 @@ export class Register {
         email: this.registerForm.value.email,
         password: this.registerForm.value.password,
         address: {
+          number: this.registerForm.value.number,
           street: this.registerForm.value.street,
           city: this.registerForm.value.city,
           postalCode: this.registerForm.value.postalCode,
           country: this.registerForm.value.country
-        }
+        },
+        general_file: this.registerForm.value.general_file
       };
 
       console.log(account);

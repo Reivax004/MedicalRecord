@@ -1,9 +1,9 @@
 export interface Prescription {
-  nomMedicament: string;
-  forme: string;
-  quantite: number;
-  frequence: number;
-  dateDebut: Date;
-  dateFin: Date;
-  statut: string;
+  drug_name: string;
+  shape: string;
+  quantity: number;
+  frequency: number;
+  start_date: Date;
+  end_date: Date;
+  status: string;
 }

@@ -4,16 +4,19 @@
   <form [formGroup]="practitionerForm" (ngSubmit)="onSubmit()">
 
     <label for="nom">Nom*</label>
-    <input id="nom" formControlName="nom" type="text">
+    <input id="nom" formControlName="lastname" type="text">
 
     <label for="prenom">Prénom*</label>
-    <input id="prenom" formControlName="prenom" type="text">
+    <input id="prenom" formControlName="firstname" type="text">
 
     <label for="specialisation">Spécialisation*</label>
-    <input id="specialisation" formControlName="specialisation" type="text">
+    <input id="specialisation" formControlName="specialization" type="text">
 
     <label for="telephone">Téléphone*</label>
-    <input id="telephone" formControlName="telephone" type="text">
+    <input id="telephone" formControlName="phone" type="text">
+
+    <label for="password">Mot de passe*</label>
+    <input type="password" id="password" formControlName="password">
 
     <h3>Etablissement</h3>
     <div formGroupName="establishment">
@@ -31,10 +34,19 @@
 
       <label for="estEmail">Email</label>
       <input id="estEmail" formControlName="email" type="email">
+
+      <label for="creationdate">Date de création</label>
+      <input id="creationdate" formControlName="creation_date" type="date">
+
+      <label for="number_employees">Nombre d'employes</label>
+      <input id="number_employees" formControlName="number_employees" type="number">
     </div>
 
     <h3>Adresse</h3>
     <div formGroupName="address">
+      <label for="number">Numéro*</label>
+      <input id="number" formControlName="number" type="text">
+
       <label for="street">Rue*</label>
       <input id="street" formControlName="street" type="text">
 

@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import {FormBuilder, FormGroup, Validators, FormArray, ReactiveFormsModule, FormControl} from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import {Practitioner} from '../models/practitioner';
 
 @Component({
   selector: 'app-dossier-suivi',
@@ -16,12 +17,12 @@ export class FollowupRecord {
   constructor(private fb: FormBuilder) {
     this.dossierForm = this.fb.group({
       id: ['', Validators.required],
-      pathologie: ['', Validators.required],
-      dateDebut: ['', Validators.required],
-      dateFin: [''],
-      etat: ['', Validators.required],
+      pathology: ['', Validators.required],
+      start_date: ['', Validators.required],
+      end_date: [''],
+      status: ['', Validators.required],
       prescriptions: this.fb.array<FormGroup>([]),
-      documents_medicaux: this.fb.array<FormGroup>([])
+      medical_document: this.fb.array<FormGroup>([])
 
     });
   }
@@ -32,14 +33,19 @@ export class FollowupRecord {
   }
 
   get documentsMedicaux(): FormArray {
-    return this.dossierForm.get('documents_medicaux') as FormArray;
+    return this.dossierForm.get('medical_document') as FormArray;
   }
 
   // --- PRESCRIPTIONS ---
   addPrescription() {
     const group = this.fb.group({
-      name: ['', Validators.required],
-      url: ['', Validators.required]
+      drug_name: ['', Validators.required],
+      shape: ['', Validators.required],
+      quantity: ['', Validators.required],
+      frequency: ['', Validators.required],
+      start_date: ['', Validators.required],
+      end_date: ['', Validators.required],
+      status: ['', Validators.required]
     });
     this.prescriptions.push(group);
   }
@@ -51,8 +57,11 @@ export class FollowupRecord {
   // --- DOCUMENTS MÉDICAUX ---
   addMedicalDoc() {
     const group = this.fb.group({
-      name: ['', Validators.required],
-      url: ['', Validators.required]
+      follow_up_file_Id:['', Validators.required],
+      practitioner:['', Validators.required],
+      type: ['', Validators.required],
+      date: ['', Validators.required],
+      description: ['', Validators.required]
     });
     this.documentsMedicaux.push(group);
   }

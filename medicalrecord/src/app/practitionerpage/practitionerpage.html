@@ -6,11 +6,11 @@
   <main class="content">
     <section class="card">
       <div class="card-row">
-        <div class="avatar">{{ current.nom.charAt(0) }}{{ current.prenom.charAt(0) }}</div>
+        <div class="avatar">{{ current.lastname.charAt(0) }}{{ current.firstname.charAt(0) }}</div>
         <div class="personal">
-          <h2>{{ current.nom }} {{ current.prenom }}</h2>
-          <p class="muted">Spécialisation : {{ current.specialisation }}</p>
-          <p class="muted">Téléphone : {{ current.telephone }}</p>
+          <h2>{{ current.lastname }} {{ current.firstname }}</h2>
+          <p class="muted">Spécialisation : {{ current.specialization }}</p>
+          <p class="muted">Téléphone : {{ current.phone }}</p>
         </div>
       </div>
 
@@ -19,19 +19,20 @@
       <div class="info-grid">
         <div class="info-block">
           <h3>Établissement</h3>
-          <p><strong>Type</strong><br>{{ current.etablissement.type }}</p>
-          <p><strong>Description</strong><br>{{ current.etablissement.description }}</p>
-          <p><strong>Téléphone</strong><br>{{ current.etablissement.telephone }}</p>
-          <p><strong>Email</strong><br>{{ current.etablissement.email }}</p>
-          <p><strong>Effectifs</strong><br>{{ current.etablissement.effectifs }}</p>
-          <p><strong>Date création</strong><br>{{ current.etablissement.date_creation | date: 'longDate' }}</p>
+          <p><strong>Type</strong><br>{{ current.establishment.type }}</p>
+          <p><strong>Description</strong><br>{{ current.establishment.description }}</p>
+          <p><strong>Téléphone</strong><br>{{ current.establishment.phone }}</p>
+          <p><strong>Email</strong><br>{{ current.establishment.email }}</p>
+          <p><strong>Effectifs</strong><br>{{ current.establishment.number_employees }}</p>
+          <p><strong>Date création</strong><br>{{ current.establishment.creation_date | date: 'longDate' }}</p>
         </div>
 
         <div class="info-block">
           <h3>Adresse</h3>
-          <p>{{ current.etablissement.adress.street }}</p>
-          <p>{{ current.etablissement.adress.postalCode }} {{ current.etablissement.adress.city }}</p>
-          <p>{{ current.etablissement.adress.country }}</p>
+          <p>{{ current.establishment.address.number }}</p>
+          <p>{{ current.establishment.address.street }}</p>
+          <p>{{ current.establishment.address.postalCode }} {{ current.establishment.address.city }}</p>
+          <p>{{ current.establishment.address.country }}</p>
         </div>
       </div>
 

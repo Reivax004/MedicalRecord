@@ -1,14 +1,10 @@
-export interface MedicalDocument {
-  name: string;
-  url: string;
-}
+import {MedicalDocument} from './medicaldocument';
 
 export interface FollowupRecord {
-  id: number;
-  pathologie: string;
-  dateDebut: Date;
-  dateFin: Date | null;
+  patientId: number;
+  pathology: String;
+  start_date: Date;
+  end_date: Date | null;
   prescriptions: MedicalDocument[];
-  documents_medicaux: MedicalDocument[];
-  etat: string; // Exemple : "En cours", "Terminé", "En pause"
+  status: string;
 }

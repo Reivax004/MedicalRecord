@@ -17,23 +17,25 @@ export class Practitionerpage implements OnInit {
 
   // @ts-ignore
   demoAccount: Practitioner = {
-    nom: 'Dr',
-    prenom: 'House',
-    specialisation: 'Cardiologie',
-    telephone: '019283746',
-    etablissement:{
-      adress: {
-        street: '12 rue de la Santé',
+    lastname: 'Dr',
+    firstname: 'House',
+    specialization: 'Cardiologie',
+    phone: '019283746',
+    establishment:{
+      name: "santé",
+      address: {
+        number: 12,
+        street: 'rue de la Santé',
         city: 'Paris',
         postalCode: '75005',
         country: 'France'
       },
       type: 'santé',
       description: 'santé',
-      telephone: '1234',
+      phone: 1234,
       email: 'sddfv@df',
-      date_creation: new Date(),
-      effectifs: 12
+      creation_date: new Date(),
+      number_employees: 12,
     }
 
   };

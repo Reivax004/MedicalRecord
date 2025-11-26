@@ -17,24 +17,27 @@ export class AccountPractitioner {
 
   constructor(private fb: FormBuilder) {
     this.practitionerForm = this.fb.group({
-      nom: ['', Validators.required],
-      prenom: ['', Validators.required],
-      specialisation: ['', Validators.required],
-      telephone: ['', [Validators.required, Validators.pattern(/^[0-9]+$/)]],
-
+      lastname: ['', Validators.required],
+      firstname: ['', Validators.required],
+      specialization: ['', Validators.required],
+      phone: ['', [Validators.required, Validators.pattern(/^[0-9]+$/)]],
+      password: ['', [Validators.required, Validators.minLength(6)]],
       establishment: this.fb.group({
         name: ['', Validators.required],
         type: ['', Validators.required],
         description: [''],
         phone: [''],
         email: ['', Validators.email],
-        address: this.fb.group({
-          street: ['', Validators.required],
-          city: ['', Validators.required],
-          zipCode: ['', Validators.required],
-          country: ['', Validators.required]
-        })
+        creation_date: ['', Validators.required],
+        number_employees: ['', Validators.required]
       }),
+      address: this.fb.group({
+        number: ['', Validators.required],
+        street: ['', Validators.required],
+        city: ['', Validators.required],
+        zipCode: ['', Validators.required],
+        country: ['', Validators.required]
+      })
 
 
     });
