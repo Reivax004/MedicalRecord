@@ -36,6 +36,7 @@ export class Patientpage implements OnInit {
       weight: 12,
       height: 123,
       blood_pressure: '1',
+      blood_group: 'A',
       general_practitioner: {
         lastname: "",
         firstname: "",

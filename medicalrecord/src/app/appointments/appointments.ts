@@ -14,6 +14,7 @@ export class Appointments {
   appointments: Appointment[] = [
     {
       patientId:1,
+      practitionerId:1,
       name: 'Consultation Dr. Martin',
       date: new Date('2025-03-20'),
       type: 'Consultation générale',
@@ -21,6 +22,7 @@ export class Appointments {
     },
     {
       patientId:2,
+      practitionerId:2,
       name: 'Radiographie',
       date: new Date('2025-04-02'),
       type: 'Imagerie médicale',
@@ -28,6 +30,7 @@ export class Appointments {
     },
     {
       patientId:3,
+      practitionerId:3,
       name: 'Vaccination',
       date: new Date('2025-04-10'),
       type: 'Vaccin',

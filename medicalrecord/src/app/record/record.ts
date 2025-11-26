@@ -24,7 +24,8 @@ export class Record implements OnInit {
       sex: ['', Validators.required],
       weight: [''],
       height: [''],
-      bloodType: ['', Validators.required],
+      blood_pressure: ['', Validators.required],
+      blood_group: ['', Validators.required],
       allergies: [''],
     });
   }

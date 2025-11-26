@@ -42,7 +42,7 @@ export class FollowupRecord {
       drug_name: ['', Validators.required],
       shape: ['', Validators.required],
       quantity: ['', Validators.required],
-      frequence: ['', Validators.required],
+      frequency: ['', Validators.required],
       start_date: ['', Validators.required],
       end_date: ['', Validators.required],
       status: ['', Validators.required]
