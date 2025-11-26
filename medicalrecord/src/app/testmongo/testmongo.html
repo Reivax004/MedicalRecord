@@ -1,0 +1,7 @@
+<button (click)="addTestPatient()">Ajouter patient test</button>
+
+<ul>
+  <li *ngFor="let p of patients">
+    {{ p.firstname }} {{ p.lastname }} - {{ p.email }}
+  </li>
+</ul>
