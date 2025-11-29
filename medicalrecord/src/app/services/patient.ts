@@ -17,4 +17,14 @@ export class PatientService {
     const res = await axios.post(this.baseUrl, patient);
     return res.data;
   }
+
+  async updatePatient(id: string, patient: any) {
+    const res = await axios.put(`${this.baseUrl}/${id}`, patient);
+    return res.data;
+  }
+
+  async deletePatient(id: string) {
+    const res = await axios.delete(`${this.baseUrl}/${id}`);
+    return res.data;
+  }
 }
