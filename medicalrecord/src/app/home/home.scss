@@ -1,10 +1,9 @@
 .hero {
   text-align: center;
-  padding: 4rem 2rem;
+  padding: 6rem 0 0 0;
   max-width: 900px;
   margin: 0 auto;
   font-family: Arial, sans-serif;
-  height: 2rem;
 }
 
 .hero h1 {
@@ -42,6 +41,7 @@
   margin-top: 4rem;
   flex-wrap: wrap;
   gap: 2rem;
+  margin-bottom: 0;
 }
 
 .hero-features .feature {
@@ -50,9 +50,9 @@
 }
 
 .hero-features .feature img {
-  width: 270px;
+  width: 100%;
+  max-width: 270px;
   height: auto;
-  margin-bottom: 1rem;
 }
 
 .hero-features .feature p {
