@@ -10,7 +10,7 @@ Pour lancer l'application en local plusieurs étapes sont à effectuer.
 node index.js
 ```
 
-### Pour lancer le frontend Angular, ouvrir un troisième terminal dans le répertoire "medicalrecord" du projet et exécuter la commande suivante:
+### Pour lancer le frontend Angular, ouvrir un deuxième terminal dans le répertoire "medicalrecord" du projet et exécuter la commande suivante:
 ```bash
 ng serve
 ```
@@ -30,7 +30,7 @@ mongoimport --db MedicalRecord --collection medical_documents --jsonArray --file
 mongoimport --db MedicalRecord --collection appointments --jsonArray --file ./../dataset/appointments.json
 ```
 
-### Version Windows: Ouvrir un nouveau terminal PowerShell (pas ceux des éditeurs) et exécuter la commande suivante dans le répertoire "backend" pour accéder à MongoSH:
+### Version Windows: Ouvrir un nouveau terminal PowerShell (pas ceux des IDE) et exécuter la commande suivante dans le répertoire "backend" pour accéder à MongoSH:
 ```bash
 mongosh mongodb://localhost:27017/MedicalRecord
 ```
