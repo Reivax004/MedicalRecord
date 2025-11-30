@@ -1,40 +1,61 @@
+
 const express = require('express');
-const router = express.Router();
 const bcrypt = require('bcrypt');
 const Patient = require('../models/patient');
 
-// REGISTER PATIENT
-router.post('/register', async (req, res) => {
+const router = express.Router();
+
+// POST /api/patient/register
+router.post('/', async (req, res) => {
     try {
-        const { firstname, lastname, email, password } = req.body;
-
-        if (!firstname || !lastname || !email || !password) {
-            return res.status(400).json({ error: 'Champs manquants' });
-        }
-
-        const existing = await Patient.findOne({ email });
-        if (existing) {
-            return res.status(409).json({ error: 'Email déjà utilisé' });
-        }
-
-        const hash = await bcrypt.hash(password, 10);
-
-        const patient = new Patient({
-            firstname,
+        const {
+            SSN,
             lastname,
+            firstname,
+            birthdate,
+            address,
+            sex,
+            phone,
             email,
-            password: hash,
+            password
+        } = req.body;
+
+        if (!SSN || !lastname || !firstname || !birthdate || !address || !sex || !phone || !email || !password) {
+            return res.status(400).json({ message: 'Champs obligatoires manquants' });
+        }
+
+        const existingEmail = await Patient.findOne({ email });
+        if (existingEmail) {
+            return res.status(400).json({ message: 'Email déjà utilisé' });
+        }
+
+        const existingSSN = await Patient.findOne({ SSN });
+        if (existingSSN) {
+            return res.status(400).json({ message: 'SSN déjà utilisé' });
+        }
+
+        const passwordHash = await bcrypt.hash(password, 10);
+
+        const patient = await Patient.create({
+            SSN,
+            lastname,
+            firstname,
+            birthdate,
+            address,
+            sex,
+            phone,
+            email,
+            passwordHash,
+            general_file: {} // vide au début
         });
 
-        const saved = await patient.save();
-
-        const { password: _, ...safe } = saved.toObject();
-
-        res.status(201).json(safe);
-
+        return res.status(201).json({
+            message: 'Compte patient créé',
+            id: patient._id
+        });
     } catch (err) {
-        console.error(err);
-        res.status(500).json({ error: 'Erreur serveur' });
+        console.error('Erreur register patient:', err);
+        return res.status(500).json({ message: 'Erreur serveur' });
     }
 });
 

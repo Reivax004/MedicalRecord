@@ -1,96 +1,74 @@
 import { Component } from '@angular/core';
-import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
-import { RouterModule, Router } from '@angular/router';
-import { CommonModule } from '@angular/common';
-import { Account } from '../models/account';
-import { MedicalRecord } from '../models/record';
-import { PatientService } from '../services/patient';
+import { HttpClient } from '@angular/common/http';
+import { Router } from '@angular/router';
+
+const API_BASE_URL = 'http://localhost:3000';
 
 @Component({
   selector: 'app-register',
-  standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, RouterModule],
   templateUrl: './register.html',
   styleUrls: ['./register.scss']
 })
 export class Register {
-  registerForm: FormGroup;
-  serverError: string | null = null;
-  success = false;
+
+  patient = {
+    SSN: '',
+    lastname: '',
+    firstname: '',
+    birthdate: '',
+    sex: '',
+    phone: '',
+    email: '',
+    password: '',
+    address: {
+      number: null as number | null,
+      street: '',
+      postal_code: null as number | null,
+      city: '',
+      country: ''
+    }
+  };
+
+  errorMessage = '';
+  isSubmitting = false;
 
   constructor(
-    private fb: FormBuilder,
-    private router: Router,
-    private patientService: PatientService
-  ) {
-    this.registerForm = this.fb.group({
-      ssn: ['', Validators.required],
-      firstName: ['', Validators.required],
-      lastName: ['', Validators.required],
-      birthDate: ['', Validators.required],
+    private http: HttpClient,
+    private router: Router
+  ) {}
 
-      number: ['', Validators.required],
-      street: ['', Validators.required],
-      city: ['', Validators.required],
-      postalCode: ['', Validators.required],
-      country: ['', Validators.required],
+  submit(): void {
+    this.errorMessage = '';
+    this.isSubmitting = true;
 
-      email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required, Validators.minLength(6)]],
-    });
-  }
-
-  async onSubmit() {
-    this.serverError = null;
-    this.success = false;
-
-    if (this.registerForm.invalid) {
-      this.registerForm.markAllAsTouched();
-      return;
-    }
-
-    const v = this.registerForm.value;
-
-    // Si tu veux typer proprement avec Account / MedicalRecord côté front :
-    const medicalRecord: MedicalRecord = {
-      // À compléter éventuellement selon ton modèle front
-      // ex: weight: 0, height: 0, blood_group: '', blood_pressure: '', vaccines: [], allergies: []
-    } as any;
-
-    const account: Account = {
-      SSN: v.ssn,
-      firstname: v.firstName,
-      lastname: v.lastName,
-      birthdate: v.birthDate,
+    const payload = {
+      SSN: this.patient.SSN,
+      lastname: this.patient.lastname,
+      firstname: this.patient.firstname,
+      birthdate: this.patient.birthdate,
+      sex: this.patient.sex,
+      phone: this.patient.phone,
+      email: this.patient.email,
+      password: this.patient.password,
       address: {
-        number: v.number,
-        street: v.street,
-        city: v.city,
-        postal_code: v.postalCode,
-        country: v.country
-      },
-      email: v.email,
-      password: v.password,
-      general_file: medicalRecord
-    } as any;
+        number: this.patient.address.number,
+        street: this.patient.address.street,
+        postal_code: this.patient.address.postal_code,
+        city: this.patient.address.city,
+        country: this.patient.address.country
+      }
+    };
 
-    try {
-      // Payload aligné sur ton backend Patient
-      await this.patientService.registerPatient({
-        SSN: account.ssn,
-        firstname: account.firstName,
-        lastname: account.lastName,
-        birthdate: account.birthDate,
-        address: account.address,
-        email: account.email,
-        password: account.password
+    this.http.post(`${API_BASE_URL}/patient/register`, payload)
+      .subscribe({
+        next: () => {
+          this.isSubmitting = false;
+          this.router.navigate(['/login']); // adapte la route si ton login a un autre path
+        },
+        error: (err) => {
+          this.isSubmitting = false;
+          this.errorMessage = err.error?.message || 'Erreur lors de la création du compte patient.';
+        }
       });
-
-      this.success = true;
-      await this.router.navigate(['/patientpage']);
-    } catch (err: any) {
-      console.error(err);
-      this.serverError = 'Erreur lors de la création du compte.';
-    }
   }
 }

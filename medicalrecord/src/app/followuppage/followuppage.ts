@@ -31,12 +31,13 @@ export class Followuppage implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    // Récupération du paramètre 'patientId' depuis l'URL
-    this.patientId = this.route.snapshot.paramMap.get('patientId') || '';
-    console.log("ID du patient récupéré :", this.patientId);
+    // Récupération de l'utilisateur connecté
+    this.patientId = localStorage.getItem('userId') || '';
+
+    console.log("ID du patient connecté :", this.patientId);
 
     if (!this.patientId) {
-      this.error = "Aucun patient trouvé (ID manquant)";
+      this.error = "Aucun utilisateur connecté (ID manquant)";
       this.loading = false;
       return;
     }
@@ -98,9 +99,7 @@ export class Followuppage implements OnInit {
   }
 
   createNewFollowup(): void {
-    this.router.navigate(['/followuprecord'], {
-      queryParams: { patientId: this.patientId }
-    });
+    this.router.navigate(['/followuprecord']);
   }
 
   deleteFollowup(followupId: string, event: Event): void {

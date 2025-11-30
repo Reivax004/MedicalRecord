@@ -1,10 +1,7 @@
-// backend/models/patient.js
 const mongoose = require('mongoose');
-const { Schema } = mongoose;
-const { MedicalRecordSchema } = require('./record');
+const {MedicalRecordSchema} = require("./record");
 
-// sous-schéma d'adresse (embedded)
-const AddressSchema = new Schema({
+const addressSchema = new mongoose.Schema({
     number: Number,
     street: String,
     postal_code: Number,
@@ -12,24 +9,17 @@ const AddressSchema = new Schema({
     country: String
 }, { _id: false });
 
-const patientSchema = new Schema(
-    {
-        SSN: { type: Number },                 // non required pour ne pas casser ton front
-        lastname:  { type: String, required: true },
-        firstname: { type: String, required: true },
-        birthdate: { type: Date },
-        address: AddressSchema,               // embedded
-        sex: { type: String },
-        phone: { type: Number },
-        email: { type: String, required: true, unique: true },
-        password: { type: String, required: true },
-
-        // dossier médical général embedded
-        general_file: MedicalRecordSchema,
-
-        isActive: { type: Boolean, default: true }
-    },
-    { versionKey: false }
-);
+const patientSchema = new mongoose.Schema({
+    SSN: { type: String, required: true, unique: true },
+    lastname: { type: String, required: true },
+    firstname: { type: String, required: true },
+    birthdate: { type: Date, required: true },
+    address: { type: addressSchema, required: true },
+    sex: { type: String, required: true },
+    phone: { type: String, required: true },
+    email: { type: String, required: true, unique: true },
+    passwordHash: { type: String, required: true },
+    general_file: { type: MedicalRecordSchema, default: {} }
+});
 
 module.exports = mongoose.model('Patient', patientSchema);
