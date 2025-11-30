@@ -1,7 +1,8 @@
 const express = require('express');
 const router = express.Router();
 
-const MedicalRecord = require('../models/record');
+const MedicalRecord = require('../models/general_file');
+const Patient = require('../models/patient');
 
 // -----------------------------------------------------
 // CREATE - POST /api/medical-records
@@ -37,8 +38,7 @@ router.get('/', async (req, res) => {
 // -----------------------------------------------------
 router.get('/:id', async (req, res) => {
     try {
-        const record = await MedicalRecord.findById(req.params.id)
-            .populate('vaccine');
+        const record = await Patient.findById(req.params.id)
             //.populate('general_practitioner')
 
 

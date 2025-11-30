@@ -26,4 +26,4 @@ const MedicalDocumentSchema = new mongoose.Schema({
     }
 });
 
-module.exports = mongoose.model('MedicalDocument', MedicalDocumentSchema);
+module.exports = mongoose.model('medical_documents', MedicalDocumentSchema);

@@ -50,8 +50,9 @@ export class Followuppage implements OnInit {
     this.error = '';
 
 
-    this.followuprecordService.getByPatientId(patientId).subscribe({
+    this.followuprecordService.getByPatientId("65f4b001a1b2c30000000002").subscribe({
       next: (data) => {
+        console.log(data)
         this.followups = data;
         for (let follow of this.followups){
           console.log(follow);
