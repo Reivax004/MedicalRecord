@@ -14,4 +14,4 @@ const FollowupRecordSchema = new Schema({
     prescriptions: [PrescriptionSchema],
     status: { type: String}
 });
-module.exports = mongoose.model('FollowupRecord', FollowupRecordSchema);
+module.exports = mongoose.model('follow_up_files', FollowupRecordSchema);

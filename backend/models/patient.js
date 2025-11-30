@@ -32,4 +32,4 @@ const patientSchema = new Schema(
     { versionKey: false }
 );
 
-module.exports = mongoose.model('Patient', patientSchema);
+module.exports = mongoose.model('patients', patientSchema);

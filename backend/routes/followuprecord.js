@@ -3,7 +3,7 @@ const router = express.Router();
 
 const FollowupRecord = require('../models/followuprecord');
 
-router.get('/:id', async (req, res) => {
+/*router.get('/:id', async (req, res) => {
     try {
         const record = await FollowupRecord.findById(req.params.id);
         if (!record) {
@@ -14,9 +14,9 @@ router.get('/:id', async (req, res) => {
     } catch (err) {
         res.status(500).json({ error: err.message });
     }
-});
+});*/
 // Route : GET /api/followuprecord/patient/:patientId
-router.get('/patient/:patientId', async (req, res) => {
+router.get('/:patientId', async (req, res) => {
     console.log('📥 Requête reçue pour patientId:',req.params.patientId );
 
     const records = await FollowupRecord.find({ patientId: req.params.patientId})

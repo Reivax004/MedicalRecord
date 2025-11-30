@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 
-const MedicalRecord = require('../models/record');
+const MedicalRecord = require('../models/general_file');
 
 // -----------------------------------------------------
 // CREATE - POST /api/medical-records

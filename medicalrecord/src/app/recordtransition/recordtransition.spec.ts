@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { Recordtransition } from './recordtransition';
+import { RecordTransition } from './recordtransition';
 
 describe('Recordtransition', () => {
-  let component: Recordtransition;
-  let fixture: ComponentFixture<Recordtransition>;
+  let component: RecordTransition;
+  let fixture: ComponentFixture<RecordTransition>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [Recordtransition]
+      imports: [RecordTransition]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(Recordtransition);
+    fixture = TestBed.createComponent(RecordTransition);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
