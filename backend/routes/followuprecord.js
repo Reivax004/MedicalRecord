@@ -2,6 +2,27 @@ const express = require('express');
 const router = express.Router();
 
 const FollowupRecord = require('../models/followuprecord');
+
+router.get('/:id', async (req, res) => {
+    try {
+        const record = await FollowupRecord.findById(req.params.id);
+        if (!record) {
+            return res.status(404).json({ error: 'Follow-up record not found' });
+        }
+
+        res.json(record);
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+});
+// Route : GET /api/followuprecord/patient/:patientId
+router.get('/patient/:patientId', async (req, res) => {
+    console.log('📥 Requête reçue pour patientId:',req.params.patientId );
+
+    const records = await FollowupRecord.find({ patientId: req.params.patientId})
+    .select("_id patientId pathology start_date end_date status prescriptions medical_document").lean();
+    res.json(records);
+});
 // -----------------------------------------------------
 // CREATE - POST /api/followup-records
 // -----------------------------------------------------
@@ -30,19 +51,9 @@ router.get('/', async (req, res) => {
 // -----------------------------------------------------
 // READ ONE - GET /api/followup-records/:id
 // -----------------------------------------------------
-router.get('/:id', async (req, res) => {
-    try {
-        const record = await FollowupRecord.findById(req.params.id);
 
-        if (!record) {
-            return res.status(404).json({ error: 'Follow-up record not found' });
-        }
 
-        res.json(record);
-    } catch (err) {
-        res.status(500).json({ error: err.message });
-    }
-});
+
 
 // -----------------------------------------------------
 // UPDATE - PUT /api/followup-records/:id
