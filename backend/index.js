@@ -6,9 +6,11 @@ const cors = require('cors');
 const patientRoutes = require('./routes/patient');
 const medicalRecordRoutes = require('./routes/record');
 const followupRecordRoutes = require('./routes/followuprecord');
-const patientRegisterRoutes = require('./routes/patientregister');
 const appointmentRoutes = require('./routes/appointments');
 const MedicalDocumentRoutes = require('./routes/medicaldocument');
+const patientRegisterRoutes = require('./routes/patientregister');
+const practitionerRegisterRoutes = require('./routes/practitionerregister');
+const loginRoutes = require('./routes/login');
 
 const app = express();
 
@@ -32,9 +34,11 @@ app.use(cors({
 app.use('/api/patient', patientRoutes);
 app.use('/api/medical-records', medicalRecordRoutes);
 app.use('/api/followuprecord', followupRecordRoutes);
-app.use('/api/patientRegister', patientRegisterRoutes);
 app.use('/api/appointments', appointmentRoutes);
 app.use('/api/medicaldocuments', MedicalDocumentRoutes);
+app.use('/api/patient/register', patientRegisterRoutes);
+app.use('/api/practitioner/register', practitionerRegisterRoutes);
+app.use('/api/login', loginRoutes);
 
 
 // ------------------ SERVER --------------------------

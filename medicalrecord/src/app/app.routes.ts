@@ -11,6 +11,7 @@ import {PatientPage} from './patientpage/patientpage';
 import {RecordPage} from './recordpage/recordpage';
 import {FollowupRecord} from './followuprecord/followuprecord';
 import {Followuppage} from './followuppage/followuppage';
+import {Login} from './login/login';
 
 export const routes: Routes = [
   { path: '', component: Home},
@@ -31,5 +32,6 @@ export const routes: Routes = [
   //{ path: 'practitionerpage', component: Practitionerpage},
   //{ path: 'testmongo', component: Testmongo},
   { path: 'medicalrecord/:id', component: RecordPage },
+  { path: 'login', component: Login },
   { path: '**', redirectTo: 'home'},
 ];
