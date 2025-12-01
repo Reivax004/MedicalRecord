@@ -6,7 +6,9 @@
     <p>Choisissez le type de dossier à créer :</p>
     <div class="buttons">
       <button (click)="goToCreateFollowup()">Créer dossier de suivi</button>
-      <button (click)="goToCreateMedical()">Créer dossier médical</button>
+      @if(bool?.weight == null){
+        <button (click)="goToCreateMedical()">Créer dossier médical</button>
+      }
     </div>
   </div>
 

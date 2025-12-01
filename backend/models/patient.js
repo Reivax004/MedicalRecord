@@ -25,7 +25,7 @@ const patientSchema = new Schema(
         password: { type: String, required: true },
 
         // dossier médical général embedded
-        general_file: MedicalRecordSchema,
+        general_file: {type: MedicalRecordSchema, default: {}, required: false},
 
         isActive: { type: Boolean, default: true }
     },

@@ -23,6 +23,7 @@ export class PatientService {
 
   // Créer un patient
   createPatient(patient: Partial<Account>): Observable<Account> {
+    console.log('Creating patient:', patient);
     return this.http.post<Account>(this.baseUrl, patient);
   }
 

@@ -40,11 +40,11 @@ const MedicalRecordSchema = new Schema({
     /*general_practitioner: {type: GeneralPractitionerSchema, required: false},*/
     vaccines: {
         type: [VaccineSchema],
-        default: []
+        default: [], required: false
     },
     allergies: {
         type: [String],
-        default: []
+        default: [], required: false
     }
 }, { _id: false }); // embedded, pas de _id
 

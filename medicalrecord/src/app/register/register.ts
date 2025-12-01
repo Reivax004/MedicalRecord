@@ -39,7 +39,7 @@ export class Register implements OnInit {
       postal_code: ['', Validators.required],
       country: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required, Validators.minLength(6)]],
+      password: ['', [Validators.required, Validators.minLength(4)]],
     });
   }
 
@@ -76,6 +76,7 @@ export class Register implements OnInit {
   }
 
   onSubmit() {
+    console.log('Form submitted');  
     this.serverError = null;
 
     if (this.registerForm.invalid) {

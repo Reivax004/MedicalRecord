@@ -6,7 +6,7 @@
     <!-- SSN -->
     <label for="ssn">Numéro de sécurité sociale</label>
     <input id="ssn" type="text" formControlName="SSN" />
-    @if(registerForm.get('ssn')?.touched && registerForm.get('ssn')?.invalid){
+    @if(registerForm.get('SSN')?.touched && registerForm.get('SSN')?.invalid){
       <div class="error">
         Le numéro de sécurité sociale est requis.
       </div>
@@ -64,7 +64,7 @@
 
 
     <!-- Bouton de soumission -->
-    <button type="submit" [disabled]="registerForm.invalid">Créer le compte</button>
+    <button type="submit">Créer le compte</button>
 
 
   </form>
