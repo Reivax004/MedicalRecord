@@ -33,7 +33,6 @@ export const routes: Routes = [
   { path: 'patientpage/:id', component: PatientPage},
   { path: 'practitionerpage', component: PractitionerPage},
   { path: 'practitionerpage/:id', component: PractitionerPage},
-  //{ path: 'testmongo', component: Testmongo},
   { path: 'medicalrecord/:id', component: RecordPage },
   { path: 'login', component: Login },
   { path: '**', redirectTo: 'home'},
