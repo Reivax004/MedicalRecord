@@ -111,7 +111,7 @@ export class PatientPage implements OnInit {
   }
   
   viewFollowedFiles(id: string) {
-    this.router.navigate(['/patient', id, 'followups']);
+    this.router.navigate(['/followuppage', id]);
   }
   
 }
