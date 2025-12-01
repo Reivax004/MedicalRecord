@@ -4,16 +4,16 @@ const {Schema} = require("mongoose");
 const AppointmentSchema = new Schema({
     patientId: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Patient',
+        ref: 'patients',
         required: true,
         index: true
     },
 
-    /*practitionerId: {
+    practitionerId: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Practitioner',
+        ref: 'practitioners',
         required: true
-    },*/
+    },
 
     name: {
         type: String,

@@ -1,7 +1,25 @@
 // backend/models/record.js
+const mongoose = require('mongoose');
 const { Schema } = require('mongoose');
 const { VaccineSchema } = require('./vaccine');
 
+const GeneralPractitionerSchema = new Schema({
+    practitionerId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'practitioners',
+        required: true,
+    },
+    lastname: {
+        type: String,
+        required: true
+    },
+    firstname: {
+        type: String,
+        required: true
+    }
+}, { _id: false });
+
+// sous-schéma dossier médical général (embedded)
 const MedicalRecordSchema = new Schema({
     weight: {
         type: Number,
@@ -19,12 +37,7 @@ const MedicalRecordSchema = new Schema({
         type: String,
         required: false
     },
-    // si tu veux remettre plus tard un snapshot du médecin traitant :
-    // general_practitioner: [{
-    //   practitionerId: Number,
-    //   lastname: String,
-    //   firstname: String
-    // }],
+    /*general_practitioner: {type: GeneralPractitionerSchema, required: false},*/
     vaccines: {
         type: [VaccineSchema],
         default: []
