@@ -162,3 +162,16 @@ button {
   .avatar { width: 64px; height: 64px; }
   .actions { justify-content: center; }
 }
+
+
+.patient-list-page .content {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  padding: 20px;
+}
+
+.patient-list-page section.card {
+  width: 100%;
+  margin: 0 auto;
+}
