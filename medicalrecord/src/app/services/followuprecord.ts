@@ -19,7 +19,7 @@ export class Followuprecord {
 
   // GET ONE BY ID
   getById(id: string): Observable<FollowupRecord> {
-    return this.http.get<FollowupRecord>(`${this.apiUrl}/${id}`);
+    return this.http.get<FollowupRecord>(`${this.apiUrl}/form/${id}`);
   }
 
   // GET ALL BY PATIENT ID
@@ -33,7 +33,7 @@ export class Followuprecord {
 
   // CREATE
   create(record: {
-    //patientId?: string;
+    patientId?: string;
     pathology: any;
     start_date: any;
     end_date: any;

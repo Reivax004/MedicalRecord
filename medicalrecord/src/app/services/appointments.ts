@@ -13,7 +13,7 @@ export class AppointmentService {
   constructor(private http: HttpClient) {}
 
   // GET ONE
-  getById(patientId: String): Observable<Appointment> {
-    return this.http.get<Appointment>(`${this.apiUrl}/${patientId}`);
+  getById(patientId: String, type: String): Observable<Appointment> {
+    return this.http.get<Appointment>(`${this.apiUrl}/${patientId}/${type}`);
   }
 }

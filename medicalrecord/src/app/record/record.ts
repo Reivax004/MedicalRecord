@@ -26,7 +26,7 @@ export class Record implements OnInit {
 
   ngOnInit(): void {
     // Récupérer l'ID dans l'URL
-    this.recordId = this.route.snapshot.paramMap.get('id');
+    this.recordId = localStorage.getItem('userId') || '';
     this.isEdit = !!this.recordId;
 
     // Création du formulaire
@@ -74,7 +74,7 @@ export class Record implements OnInit {
         });
 
         // remplir les vaccins
-        record.vaccine.forEach((v: any) => {
+        record.vaccines.forEach((v: any) => {
           const group = this.createVaccineGroup();
           group.patchValue({
             name: v.name,

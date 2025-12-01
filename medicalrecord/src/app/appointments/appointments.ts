@@ -16,13 +16,15 @@ export class Appointments {
   appointments: Appointment[] = [
   ];
   userId: String = "";
+  typeUser: String = "";
 
   constructor(private appointmentService: AppointmentService, private http: HttpClient) {}
 
   ngOnInit() {
+    this.typeUser = localStorage.getItem('userType') || '';
     this.userId = localStorage.getItem('userId') || '';
     console.log("User ID:", this.userId);
-    this.appointmentService.getById(this.userId)
+    this.appointmentService.getById(this.userId, this.typeUser)
     .subscribe((data: any) => {
       this.appointments = data;
     });  

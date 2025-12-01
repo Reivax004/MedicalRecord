@@ -6,9 +6,15 @@ const Appointment = require('../models/appointment');
 // -----------------------------------------------------
 // READ ONE - GET /api/appointments/:id
 // -----------------------------------------------------
-router.get('/:id', async (req, res) => {
+router.get('/:id/:type', async (req, res) => {
     try {
-        const appointments = await Appointment.find({ patientId: req.params.id }).limit(10).sort({ date: -1 });
+        var appointments = undefined;
+        if(req.params.type === 'practitioner'){
+            appointments = await Appointment.find({ practitionerId: req.params.id }).limit(10).sort({ date: -1 }).populate('practitionerId', 'firstname lastname').populate('patientId','firstname lastname').exec();;
+        }
+        else{
+            appointments = await Appointment.find({ patientId: req.params.id }).limit(10).sort({ date: -1 }).populate('practitionerId', 'firstname lastname').populate('patientId','firstname lastname').exec();;
+        }
 
         console.log("Fetched appointments:", appointments);
         return res.status(200).json(appointments);

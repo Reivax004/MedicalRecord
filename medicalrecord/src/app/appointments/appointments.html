@@ -3,6 +3,12 @@
   @for (appointment of appointments; track appointment){
   <div class="appointment-card">
     <h3>{{ appointment.name }}</h3>
+    @if(typeUser === 'patient'){
+      <p><strong>Docteur :</strong> {{ appointment.practitionerId.lastname}} {{ appointment.practitionerId.firstname}}</p>
+    }
+    @if(typeUser === 'practitioner'){
+      <p><strong>Patient :</strong> {{ appointment.patientId.lastname}} {{ appointment.patientId.firstname}}</p>
+    }
     <p><strong>Date :</strong> {{ appointment.date | date:'longDate' }}</p>
     <p><strong>Type :</strong> {{ appointment.type }}</p>
     <p><strong>Description :</strong> {{ appointment.description }}</p>

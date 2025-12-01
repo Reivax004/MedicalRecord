@@ -26,7 +26,7 @@ export class RecordPage implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.recordId = String(this.route.snapshot.paramMap.get('id'));
+    this.recordId = localStorage.getItem('userId') || '';
     console.log("ID du dossier récupéré :", this.recordId);
       if (!this.recordId) {
       this.error = "Aucun dossier médical trouvé (ID manquant)";
@@ -45,6 +45,7 @@ export class RecordPage implements OnInit {
         console.log("Dossier chargé :", data);
         this.record = [data];  // On stocke dans un tableau comme dans ton HTML
         this.loading = false;
+        console.log("Dossier médical :", this.record);
       },
       error: (err) => {
         console.error("Erreur :", err);
