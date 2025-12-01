@@ -1,59 +1,84 @@
-/*
-import { Account } from '../models/account';
-import {Component, Input, OnInit} from '@angular/core';
-import {DatePipe} from '@angular/common';
-import {Address} from '../models/address';
-import {Practitioner} from '../models/practitioner';
+import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { ActivatedRoute, Router } from '@angular/router';
+
+import { Practitioner } from '../models/practitioner';
+import {PractitionerService} from '../services/practitioners';
 
 @Component({
-  selector: 'app-patientpage',
+  selector: 'app-practitioner-page',
+  standalone: true,
+  imports: [CommonModule],
   templateUrl: './practitionerpage.html',
-  imports: [
-    DatePipe
-  ],
   styleUrls: ['./practitionerpage.scss']
 })
-export class Practitionerpage implements OnInit {
-  @Input() practitioner: Practitioner | null = null;
+export class PractitionerPage implements OnInit {
 
-  // @ts-ignore
-  demoAccount: Practitioner = {
-    lastname: 'Dr',
-    firstname: 'House',
-    specialization: 'Cardiologie',
-    phone: '019283746',
-    establishment:{
-      name: "santé",
-      address: {
-        number: 12,
-        street: 'rue de la Santé',
-        city: 'Paris',
-        postal_code: '75005',
-        country: 'France'
-      },
-      type: 'santé',
-      description: 'santé',
-      phone: 1234,
-      email: 'sddfv@df',
-      creation_date: new Date(),
-      number_employees: 12,
+  current!: Practitioner;
+  loading: boolean = true;
+  error: string = '';
+  practitionerId!: string;
+
+  constructor(
+    private router: Router,
+    private route: ActivatedRoute,
+    private practitionerService: PractitionerService
+  ) {}
+
+  ngOnInit(): void {
+    this.practitionerId = String(this.route.snapshot.paramMap.get('id'));
+    console.log("ID du praticien récupéré :", this.practitionerId);
+
+    if (!this.practitionerId) {
+      this.error = "Aucun praticien trouvé (ID manquant)";
+      this.loading = false;
+      return;
     }
 
-  };
-
-  get current(): Practitioner {
-    return this.practitioner ?? this.demoAccount;
+    this.loadPractitionerById(this.practitionerId);
   }
 
-  constructor() {}
+  loadPractitionerById(id: string): void {
+    this.loading = true;
 
-  ngOnInit(): void {}
-
-  onEdit(): void {
-    console.log('Edit patient', this.current);
-    alert('Édition (exemple) — implémente la navigation vers le formulaire.');
+    this.practitionerService.getById(id).subscribe({
+      next: (data) => {
+        console.log("Praticien chargé :", data);
+        this.current = data;
+        this.loading = false;
+      },
+      error: (err) => {
+        console.error("Erreur :", err);
+        this.error = "Impossible de charger le praticien";
+        this.loading = false;
+      }
+    });
   }
 
-  protected readonly history = history;
+  goBack(): void {
+    this.router.navigate(['/practitioners']); // adapte selon ta route
+  }
+
+  editPractitioner(): void {
+    if (this.current ) {
+      this.router.navigate(['/accountpractitioner/', this.current._id]);
+    }
+  }
+
+  deletePractitioner(): void {
+    if (!this.current || !this.current._id) return;
+
+    if (confirm("Voulez-vous vraiment supprimer ce praticien ?")) {
+      this.practitionerService.delete(this.current._id).subscribe({
+        next: () => {
+          alert("Praticien supprimé avec succès");
+          this.router.navigate(['/practitioners']);
+        },
+        error: (err) => {
+          console.error(err);
+          alert("Erreur lors de la suppression du praticien");
+        }
+      });
+    }
+  }
 }
-*/
