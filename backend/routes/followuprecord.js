@@ -1,3 +1,4 @@
+const mongoose = require('mongoose');
 const express = require('express');
 const router = express.Router();
 
@@ -19,10 +20,36 @@ const FollowupRecord = require('../models/followuprecord');
 router.get('/:patientId', async (req, res) => {
     console.log('📥 Requête reçue pour patientId:',req.params.patientId );
     
-    const records = await FollowupRecord.find({ patientId: req.params.patientId})
-    .select("_id patientId pathology start_date end_date status prescriptions medical_document").lean();
-    console.log('📤 Envoi des follow-up records:', records );
-    res.json(records);
+    const patientId = new mongoose.Types.ObjectId(req.params.patientId);
+
+    const results = await FollowupRecord.aggregate([
+        {
+          $match: { patientId: patientId }
+        },
+        {
+          $group: {
+            _id: "$status",
+            dossiers: { $push: "$$ROOT" }
+          }
+        }
+      ]);
+
+      const response = {
+        inProgress: [],
+        others: []
+      };
+    
+      for (const group of results) {
+        if (group._id === "En cours" || group._id === "en cours") {
+          response.inProgress = group.dossiers;
+        } else {
+          response.others = group.dossiers;
+        }
+      }
+
+      
+    console.log('📤 Envoi des follow-up records:', results );
+    res.json(response);
 });
 
 router.get('/form/:patientId', async (req, res) => {

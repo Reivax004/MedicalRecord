@@ -53,6 +53,7 @@ router.get('/practitioners/:id', async (req, res) => {
 });
 
 
+
 // UPDATE - PUT /api/patients/:id
 router.put('/:id', async (req, res) => {
     try {

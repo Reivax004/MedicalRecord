@@ -19,6 +19,8 @@ export class PatientPage implements OnInit {
   userId: string = '';
   userType: string | null = "";
   users: Account[] = [];
+  totalMeetings: number = 0;
+
   constructor(
     private route: ActivatedRoute,
     private router: Router,
@@ -39,6 +41,8 @@ export class PatientPage implements OnInit {
       this.loadPatient();
     } else {
       this.loadPatientsForPractitioner();
+      this.loadNumberPatientsForPractioner();
+      console.log(this.totalMeetings)
     }
   }
 
@@ -56,6 +60,21 @@ export class PatientPage implements OnInit {
     });
   }
 
+  loadNumberPatientsForPractioner(): void {
+    this.patientService.getNumberPatientsForPractitioner(this.userId).subscribe({
+      next: (result: any) => {
+        this.totalMeetings = result.totalMeetings || 0;
+        this.loading = false;
+        console.log("Nombre total de rencontres :", this.totalMeetings);
+      },
+      error: () => {
+        this.error = "Erreur lors du chargement du nombre de rencontres.";
+        this.loading = false;
+      }
+    });
+  }
+
+  
   private loadPatientsForPractitioner(): void {
     console.log("ID du praticien récupéré :", this.userId);
   

@@ -23,12 +23,15 @@ export class Followuprecord {
   }
 
   // GET ALL BY PATIENT ID
-  getByPatientId(patientId: string): Observable<FollowupRecord[]> {
+  getByPatientId(patientId: string): Observable<{ 
+    inProgress: FollowupRecord[], 
+    others: FollowupRecord[] 
+  }> {
     const url = `${this.apiUrl}/${patientId}`;
     console.log('🚀 Appel API:', url);
     console.log(patientId);
     console.log(this.http.get<FollowupRecord[]>(url));
-    return this.http.get<FollowupRecord[]>(url);
+    return this.http.get<{ inProgress: FollowupRecord[], others: FollowupRecord[] }>(url);
   }
 
   // CREATE

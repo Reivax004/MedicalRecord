@@ -16,7 +16,8 @@ import {catchError, forkJoin, of} from 'rxjs';
 })
 export class Followuppage implements OnInit {
 
-  followups: FollowupRecord[] = [];
+  followupsInProgress: FollowupRecord[] = [];
+  followupsOther: FollowupRecord[] = [];
   loading: boolean = true;
   error: string = '';
   patientId: string = ''; // ← Initialisé au lieu de !
@@ -55,41 +56,45 @@ export class Followuppage implements OnInit {
     this.loading = true;
     this.error = '';
 
-
     this.followuprecordService.getByPatientId(patientId).subscribe({
       next: (data) => {
-        console.log(data)
-        this.followups = data;
-        for (let follow of this.followups){
-          console.log(follow);
-        }
+        console.log("Dossiers de suivi chargés :", data);        
+        this.followupsInProgress = data.inProgress || [];
+        this.followupsOther = data.others || [];
+        console.log("Dossiers en cours :", this.followupsInProgress);
+        console.log("Autres dossiers :", this.followupsOther);
         // Si pas de followups → on arrête
-        if (!this.followups || this.followups.length === 0) {
+        if (
+          this.followupsInProgress.length === 0 &&
+          this.followupsOther.length === 0
+        ) {
           this.loading = false;
           return;
         }
         // On prépare toutes les requêtes
-        const requests = this.followups.map(follow =>
+        const requestsInProgress = this.followupsInProgress.map(follow =>
           this.medicalDocumentService.getByFollowupId(follow._id).pipe(
-            catchError(() => of([])) // si une requête échoue → on met []
+            catchError(() => of([]))
           )
         );
 
-        forkJoin(requests).subscribe({
-          next: (allDocs: any[][]) => {
-            // On réinjecte dans chaque followup
-            this.followups.forEach((follow, i) => {
-              follow.medical_document = allDocs[i];
-            });
+        const requestsOther = this.followupsOther.map(follow =>
+          this.medicalDocumentService.getByFollowupId(follow._id).pipe(
+            catchError(() => of([]))
+          )
+        );
 
+        forkJoin(requestsInProgress).subscribe((docs) => {
+          docs.forEach((docList, i) => {
+            this.followupsInProgress[i].medical_document = docList;
+          });
+        });
 
-            this.loading = false;
-          },
-          error: (err: any) => {
-            console.error("Erreur chargement documents :", err);
-            this.error = "Erreur lors du chargement des documents médicaux";
-            this.loading = false;
-          }
+        forkJoin(requestsOther).subscribe((docs) => {
+          docs.forEach((docList, i) => {
+            this.followupsOther[i].medical_document = docList;
+          });
+          this.loading = false;
         });
       },
 

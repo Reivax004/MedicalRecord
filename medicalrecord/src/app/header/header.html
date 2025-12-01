@@ -9,12 +9,14 @@
     }
     @if(typeUser === 'patient') {
       <li><a routerLink="/patientpage">Mon compte</a></li>
-
     }
+    
+    <li><a routerLink="/allpractitioners">Liste des Praticiens</a></li>
+
     @if(typeUser != 'practitioner' && typeUser != 'patient') {
       <li><a routerLink="/accounttransition">Compte</a></li>
     }
-    <li><a routerLink="/allpractitioners">Liste des Praticiens</a></li>
+    
     <li><a routerLink="/login">Login</a></li>
 
   </ul>

@@ -21,6 +21,7 @@ export class AllPractitionners implements OnInit {
   ngOnInit(): void {
     this.practitionerService.getPractitioners().subscribe({
       next: (data) => {
+        console.log("Praticiens chargés :", data);
         this.practitioners = data;
         this.loading = false;
       },
