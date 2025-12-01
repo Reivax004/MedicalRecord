@@ -28,6 +28,7 @@ export class FollowupRecord implements OnInit {
 
   isEdit: boolean = false;
   followupId: string | null = null;
+  userId: string = '';
 
   constructor(
     private fb: FormBuilder,
@@ -42,12 +43,14 @@ export class FollowupRecord implements OnInit {
 
     /** :id dans l’URL */
     this.followupId = this.route.snapshot.paramMap.get('id');
+    this.userId = localStorage.getItem('userId') || '';
+    console.log(this.followupId);
     console.log(!!this.followupId);
     this.isEdit = !!this.followupId;
 
     /** construction formulaire */
     this.dossierForm = this.fb.group({
-      //patientId: [''],
+      patientId: [this.userId],
       pathology: ['', Validators.required],
       start_date: ['', Validators.required],
       end_date: [''],
@@ -113,7 +116,7 @@ export class FollowupRecord implements OnInit {
 
         // Patch des champs du formulaire principal
         this.dossierForm.patchValue({
-          //patientId: followup.patientId,
+          patientId: followup.patientId,
           pathology: followup.pathology,
           start_date: followup.start_date ? new Date(followup.start_date).toISOString().substring(0, 10) : '',
           end_date: followup.end_date ? new Date(followup.end_date).toISOString().substring(0, 10) : '',
@@ -181,7 +184,7 @@ export class FollowupRecord implements OnInit {
 
     // Préparer le payload du followup sans les documents médicaux
     const followupPayload = {
-      //patientId: formValue.patientId,
+      patientId: formValue.patientId,
       pathology: formValue.pathology,
       start_date: formValue.start_date,
       end_date: formValue.end_date,
@@ -280,7 +283,7 @@ export class FollowupRecord implements OnInit {
     ).subscribe({
       next: () => {
         alert("Dossier et documents médicaux créés !");
-        this.router.navigate(['/followuppage', this.followupId]);
+        this.router.navigate(['/followuppage']);
       },
       error: (err: any) => {
         console.error(err);

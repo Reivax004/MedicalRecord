@@ -9,9 +9,15 @@ const Patient = require('../models/patient');
 // -----------------------------------------------------
 router.post('/', async (req, res) => {
     try {
-        const record = new MedicalRecord(req.body);
-        const saved = await record.save();
-        res.json(saved);
+        const updatedPatient = await Patient.findByIdAndUpdate(
+            req.params.patientId,
+            { $set: { general_file: req.body } },  // ✔ ajoute le dossier
+            { new: true, upsert: false }           // ✔ ne crée pas de nouveau patient
+        ).select("general_file");
+        if (!updatedPatient) {
+            return res.status(404).json({ error: "Patient not found" });
+        }
+        res.json(updatedPatient.general_file);
     } catch (err) {
         res.status(500).json({ error: err.message });
     }
@@ -38,7 +44,8 @@ router.get('/', async (req, res) => {
 // -----------------------------------------------------
 router.get('/:id', async (req, res) => {
     try {
-        const record = await Patient.findById(req.params.id)
+        console.log("Fetching medical record for patient ID:", req.params.id);
+        const record = await Patient.findById(req.params.id).select('general_file')
             //.populate('general_practitioner')
 
 
@@ -46,7 +53,7 @@ router.get('/:id', async (req, res) => {
             return res.status(404).json({ error: 'Medical record not found' });
         }
 
-        res.json(record);
+        res.json(record.general_file);
     } catch (err) {
         res.status(500).json({ error: err.message });
     }
@@ -57,17 +64,25 @@ router.get('/:id', async (req, res) => {
 // -----------------------------------------------------
 router.put('/:id', async (req, res) => {
     try {
-        const updated = await MedicalRecord.findByIdAndUpdate(
+        console.log(req.body);
+        const updated = await Patient.findByIdAndUpdate(
             req.params.id,
-            req.body,
-            { new: true }
-        );
+            { $set: {
+                "general_file.weight": req.body.weight,
+                "general_file.height": req.body.height,
+                "general_file.blood_pressure": req.body.blood_pressure,
+                "general_file.blood_group": req.body.blood_group,
+                "general_file.allergies": req.body.allergies,
+                "general_file.vaccines": req.body.vaccine   // ⭐ forcé
+            }},
+            { new: true, overwrite: false }
+        ).select('general_file');
 
         if (!updated) {
             return res.status(404).json({ error: 'Medical record not found' });
         }
 
-        res.json(updated);
+        res.json(updated.general_file);
     } catch (err) {
         res.status(500).json({ error: err.message });
     }
@@ -78,9 +93,12 @@ router.put('/:id', async (req, res) => {
 // -----------------------------------------------------
 router.delete('/:id', async (req, res) => {
     try {
-        const deleted = await MedicalRecord.findByIdAndDelete(req.params.id);
-
-        if (!deleted) {
+        const updated = await Patient.findByIdAndUpdate(
+            req.params.id,
+            { $unset: { general_file: "" } },   // ⭐ supprime uniquement le champ général
+            { new: true }
+        );
+        if (!updated) {
             return res.status(404).json({ error: 'Medical record not found' });
         }
 

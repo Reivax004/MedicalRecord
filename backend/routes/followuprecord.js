@@ -18,16 +18,28 @@ const FollowupRecord = require('../models/followuprecord');
 // Route : GET /api/followuprecord/patient/:patientId
 router.get('/:patientId', async (req, res) => {
     console.log('📥 Requête reçue pour patientId:',req.params.patientId );
-
+    
     const records = await FollowupRecord.find({ patientId: req.params.patientId})
     .select("_id patientId pathology start_date end_date status prescriptions medical_document").lean();
+    console.log('📤 Envoi des follow-up records:', records );
     res.json(records);
 });
+
+router.get('/form/:patientId', async (req, res) => {
+    console.log('📥 Requête reçue pour patientId:',req.params.patientId );
+    
+    const records = await FollowupRecord.findById(req.params.patientId)
+    .select("_id patientId pathology start_date end_date status prescriptions medical_document").lean();
+    console.log('📤 Envoi des follow-up records:', records );
+    res.json(records);
+});
+
 // -----------------------------------------------------
 // CREATE - POST /api/followup-records
 // -----------------------------------------------------
 router.post('/', async (req, res) => {
     try {
+        console.log('📥 Requête de création de follow-up record:', req.body);
         const record = new FollowupRecord(req.body);
         const saved = await record.save();
         res.json(saved);

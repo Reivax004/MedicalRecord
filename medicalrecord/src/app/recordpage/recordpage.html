@@ -48,9 +48,9 @@
     <!-- VACCINS -->
     <div class="section">
       <h2>Historique de Vaccination</h2>
-      @if(record[0].vaccine && record[0].vaccine.length > 0){
+      @if(record[0].vaccines && record[0].vaccines.length > 0){
       <div class="vaccines-list">
-        @for(vaccine of record[0].vaccine; track vaccine.name; let i = $index){
+        @for(vaccine of record[0].vaccines; track vaccine.name; let i = $index){
         <div class="vaccine-card">
           <div class="vaccine-header">
             <h3>{{ vaccine.name }}</h3>
@@ -80,7 +80,7 @@
         }
       </div>
       }
-      @if(!record[0].vaccine || record[0].vaccine.length === 0){
+      @if(!record[0].vaccines || record[0].vaccines.length === 0){
       <p>Aucun vaccin enregistré</p>
       }
     </div>

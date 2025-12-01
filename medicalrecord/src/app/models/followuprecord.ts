@@ -3,7 +3,7 @@ import {MedicalDocument} from './medicaldocument';
 
 export interface FollowupRecord {
   _id: string;
-  //patientId: string;
+  patientId: string;
   pathology: String;
   start_date: Date;
   end_date: Date | null;
