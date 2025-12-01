@@ -72,13 +72,13 @@ export class Followuppage implements OnInit {
         }
   
         const reqInProgress = this.followupsInProgress.map(follow =>
-          this.medicalDocumentService.getByFollowupId(follow._id).pipe(
+          this.medicalDocumentService.getByFollowupTypeId(follow._id).pipe(
             catchError(() => of([]))
           )
         );
   
         const reqOther = this.followupsOther.map(follow =>
-          this.medicalDocumentService.getByFollowupId(follow._id).pipe(
+          this.medicalDocumentService.getByFollowupTypeId(follow._id).pipe(
             catchError(() => of([]))
           )
         );

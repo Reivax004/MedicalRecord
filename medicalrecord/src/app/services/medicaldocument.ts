@@ -14,9 +14,14 @@ export class Medicaldocument {
   constructor(private http: HttpClient) {}
 
   /** 🔹 GET DOCUMENTS BY FOLLOWUP ID */
-  getByFollowupId(followupId: string | undefined): Observable<medical_documents_group[]> {
-    return this.http.get<medical_documents_group[]>(`${this.apiUrl}/followup/${followupId}`);
+  getByFollowupId(followupId: string | undefined): Observable<MedicalDocument[]> {
+    return this.http.get<MedicalDocument[]>(`${this.apiUrl}/followup/${followupId}`);
   }
+
+    /** 🔹 GET DOCUMENTS BY FOLLOWUP ID */
+    getByFollowupTypeId(followupId: string | undefined): Observable<medical_documents_group[]> {
+      return this.http.get<medical_documents_group[]>(`${this.apiUrl}/followup/type/${followupId}`);
+    }
 
   /** 🔹 CREATE ONE DOCUMENT */
   create(document: MedicalDocument): Observable<MedicalDocument> {

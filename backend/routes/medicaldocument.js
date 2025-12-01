@@ -63,11 +63,27 @@ router.get('/:id', async (req, res) => {
     }
 });
 
-
 // =========================
 // 🔹 GET DOCUMENTS BY FOLLOWUP ID
 // =========================
 router.get('/followup/:followupId', async (req, res) => {
+    try {
+        const docs = await MedicalDocument.find({
+            follow_up_file_Id: req.params.followupId
+        });
+
+        res.json(docs);
+    } catch (err) {
+        console.error("Erreur récupération par followup :", err);
+        res.status(500).json({ message: err.message });
+    }
+});
+
+
+// =========================
+// 🔹 GET DOCUMENTS BY FOLLOWUP ID
+// =========================
+router.get('/followup/type/:followupId', async (req, res) => {
     try {
         const followupId = new mongoose.Types.ObjectId(req.params.followupId);
         const docs = await MedicalDocument.aggregate([
