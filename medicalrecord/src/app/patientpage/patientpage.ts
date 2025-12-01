@@ -1,10 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Router, RouterModule } from '@angular/router';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { PatientService } from '../services/patient';
 import { Account } from '../models/account';
-import { PractitionerService } from '../services/practitioners';
-import { Practitioner } from '../models/practitioner';
 
 @Component({
   selector: 'app-patient-page',
@@ -16,40 +14,29 @@ import { Practitioner } from '../models/practitioner';
 export class PatientPage implements OnInit {
 
   current!: Account;
-  current2!: Practitioner;
-  loading = true;
+  loading: boolean = true;
   error: string | null = null;
   userId: string = '';
 
-  userType: string | null = null; // 'patient' ou 'practitioner'
-
   constructor(
+    private route: ActivatedRoute,
     private router: Router,
-    private patientService: PatientService,
-    private practitionerService: PractitionerService
+    private patientService: PatientService
   ) {}
 
   ngOnInit(): void {
-    const id = localStorage.getItem('userId');
-    this.userType = localStorage.getItem('userType');
-    if (!id || !this.userType) {
-      this.error = "Vous devez être connecté pour accéder à cette page.";
+
+    // ⬅️ On récupère l’ID MongoDB dans l'URL
+    this.userId = localStorage.getItem('userId') || '';
+
+    if (!this.userId) {
+      this.error = "Identifiant patient invalide.";
       this.loading = false;
       return;
     }
 
-    if (this.userType === 'patient') {
-      this.loadPatient(id);
-    } else if (this.userType === 'practitioner') {
-      this.loadPractitioner(id);
-    } else {
-      this.error = "Type de compte inconnu.";
-      this.loading = false;
-    }
-  }
-
-  private loadPatient(id: string): void {
-    this.patientService.getPatient(id).subscribe({
+    // ⬅️ On charge le patient via son ID MongoDB
+    this.patientService.getPatient(this.userId).subscribe({
       next: (patient: Account) => {
         this.current = patient;
         this.loading = false;
@@ -61,74 +48,31 @@ export class PatientPage implements OnInit {
     });
   }
 
-  private loadPractitioner(id: string): void {
-    this.practitionerService.getById(id).subscribe({
-      next: (pract: Practitioner) => {
-        this.current2 = pract;
-        this.loading = false;
-      },
-      error: () => {
-        this.error = "Praticien introuvable ou erreur serveur.";
-        this.loading = false;
-      }
-    });
-  }
-
   onEdit() {
     if (!this.current || !this.current._id) return;
-
-    if (this.userType === 'patient') {
-      this.router.navigate(['/register', this.current._id]); // page édition patient
-    } else if (this.userType === 'practitioner') {
-      this.router.navigate(['/practitionerregister', this.current._id]); // adapte à ta route praticien
-    }
+    this.router.navigate(['/register/', this.current._id]);
   }
 
   onDelete() {
+
     if (!this.current || !this.current._id) return;
 
-    const label =
-      this.userType === 'practitioner' ? 'praticien' : 'patient';
-
     const confirmDelete = confirm(
-      `Es-tu sûr de vouloir supprimer le ${label} ${this.current.firstname} ${this.current.lastname} ?`
+      `Es-tu sûr de vouloir supprimer le patient ${this.current.firstname} ${this.current.lastname} ?`
     );
 
     if (!confirmDelete) return;
 
-    if (this.userType === 'patient') {
-      this.patientService.deletePatient(this.current._id).subscribe({
-        next: () => {
-          alert('Patient supprimé avec succès.');
-          this.afterDelete();
-        },
-        error: (err) => {
-          console.error(err);
-          alert("Erreur lors de la suppression du patient.");
-        }
-      });
-    } else if (this.userType === 'practitioner') {
-      this.practitionerService.delete(this.current._id).subscribe({
-        next: () => {
-          alert('Praticien supprimé avec succès.');
-          this.afterDelete();
-        },
-        error: (err) => {
-          console.error(err);
-          alert("Erreur lors de la suppression du praticien.");
-        }
-      });
-    }
-  }
-
-  private afterDelete(): void {
-    // on peut aussi vider le localStorage car le compte n'existe plus
-    localStorage.removeItem('userId');
-    localStorage.removeItem('userType');
-    localStorage.removeItem('userFirstname');
-    localStorage.removeItem('userLastname');
-
-    this.router.navigate(['/']); // ou une page d’accueil
+    this.patientService.deletePatient(this.current._id).subscribe({
+      next: () => {
+        alert('Patient supprimé avec succès.');
+        this.router.navigate(['/patientlist']); // ➡️ Change vers ta vraie page de liste
+      },
+      error: (err) => {
+        console.error(err);
+        alert("Erreur lors de la suppression du patient.");
+      }
+    });
   }
 
   protected readonly history = history;

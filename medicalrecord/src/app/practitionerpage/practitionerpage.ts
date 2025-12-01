@@ -17,7 +17,7 @@ export class PractitionerPage implements OnInit {
   current!: Practitioner;
   loading: boolean = true;
   error: string = '';
-  practitionerId!: string;
+  practitionerId: string = '';
 
   constructor(
     private router: Router,
@@ -26,7 +26,7 @@ export class PractitionerPage implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.practitionerId = String(this.route.snapshot.paramMap.get('id'));
+    this.practitionerId = localStorage.getItem('userId') || '';
     console.log("ID du praticien récupéré :", this.practitionerId);
 
     if (!this.practitionerId) {

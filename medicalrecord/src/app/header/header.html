@@ -4,9 +4,17 @@
     <li><a routerLink="/home">Accueil</a></li>
     <li><a routerLink="/appointments">Rendez-vous</a></li>
     <li><a routerLink="/recordtransition">Dossier</a></li>
-    <li><a routerLink="/accounttransition">Compte</a></li>
-    <li><a routerLink="/patientpage">Mon compte</a></li>
-    <li><a routerLink="/practitionerpage">Liste des practiciens</a></li>
+    @if (typeUser === 'practitioner') {
+      <li><a routerLink="/practitionerpage">Mon compte</a></li>
+    }
+    @if(typeUser === 'patient') {
+      <li><a routerLink="/patientpage">Mon compte</a></li>
+
+    }
+    @if(typeUser != 'practitioner' && typeUser != 'patient') {
+      <li><a routerLink="/accounttransition">Compte</a></li>
+    }
     <li><a routerLink="/login">Login</a></li>
+
   </ul>
 </nav>
