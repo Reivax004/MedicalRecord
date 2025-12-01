@@ -67,7 +67,9 @@ export class Login {
             duration: 3000,
             panelClass: ['success-snackbar']
           });
-          this.router.navigate(['/']);
+          this.router.navigate(['/']).then(() => {
+            window.location.reload();
+          });
         },
         error: (err) => {
           this.isSubmitting = false;

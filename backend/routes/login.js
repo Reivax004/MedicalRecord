@@ -35,6 +35,7 @@ router.post('/', async (req, res) => {
             firstname: user.firstname,
             lastname: user.lastname
         });
+
     } catch (err) {
         console.error('Erreur login:', err);
         return res.status(500).json({ message: 'Erreur serveur' });

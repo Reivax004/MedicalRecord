@@ -2,14 +2,14 @@ const express = require('express');
 const router = express.Router();
 
 const MedicalRecord = require('../models/general_file');
-const Patient = require('../models/patient');
+const patients = require('../models/patient');
 
 // -----------------------------------------------------
 // CREATE - POST /api/medical-records
 // -----------------------------------------------------
 router.post('/', async (req, res) => {
     try {
-        const updatedPatient = await Patient.findByIdAndUpdate(
+        const updatedPatient = await patients.findByIdAndUpdate(
             req.params.patientId,
             { $set: { general_file: req.body } },  // ✔ ajoute le dossier
             { new: true, upsert: false }           // ✔ ne crée pas de nouveau patient
@@ -45,10 +45,10 @@ router.get('/', async (req, res) => {
 router.get('/:id', async (req, res) => {
     try {
         console.log("Fetching medical record for patient ID:", req.params.id);
-        const record = await Patient.findById(req.params.id).select('general_file')
+        const record = await patients.findById(req.params.id).select('general_file');
             //.populate('general_practitioner')
 
-
+        console.log(record)
         if (!record) {
             return res.status(404).json({ error: 'Medical record not found' });
         }
@@ -65,7 +65,7 @@ router.get('/:id', async (req, res) => {
 router.put('/:id', async (req, res) => {
     try {
         console.log(req.body);
-        const updated = await Patient.findByIdAndUpdate(
+        const updated = await patients.findByIdAndUpdate(
             req.params.id,
             { $set: {
                 "general_file.weight": req.body.weight,
@@ -93,7 +93,7 @@ router.put('/:id', async (req, res) => {
 // -----------------------------------------------------
 router.delete('/:id', async (req, res) => {
     try {
-        const updated = await Patient.findByIdAndUpdate(
+        const updated = await patients.findByIdAndUpdate(
             req.params.id,
             { $unset: { general_file: "" } },   // ⭐ supprime uniquement le champ général
             { new: true }
